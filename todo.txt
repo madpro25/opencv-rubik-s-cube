@@ -1,0 +1,3 @@
+list all images where model does not work
+improve the limits accordingly
+find a way to map the colours and show them on the image or in a separate file
