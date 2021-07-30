@@ -5,6 +5,8 @@ import os
 colours = {1: "red", 2: "white", 3: "green",
            4: "yellow", 5: "orange", 6: "blue"}
 
+discre = open("discrepancies", "w")
+
 directory = "/home/aaditya/roboism-python/rubik/inputs"
 for file in os.listdir(directory):
 
@@ -20,18 +22,19 @@ for file in os.listdir(directory):
 
     # cv.imshow("canny", canny)
     #                  lh  ls  lv   uh   us   uv
-    bounds = np.array([[169, 88, 100, 255, 255, 255],
+    bounds = np.array([[169, 88, 56, 255, 255, 255],  # 0,112,142,5,244,255
                        [0,  0, 65, 255,  94, 255],
-                       [68, 88, 100, 95, 255, 255],
-                       [21, 88, 100,  70, 255, 255],
-                       [4, 88, 100,  28, 255, 255],
-                       [86, 88, 100, 122, 255, 255]])
+                       [42, 88, 56, 95, 255, 255],
+                       [21, 88, 56,  46, 255, 255],
+                       [6, 130, 160,  23, 255, 255],
+                       [83, 65, 56, 163, 255, 255]])
 
     masks = [cv.inRange(hsv, bounds[i][:3], bounds[i][3:]) for i in range(6)]
 
     red = green = yellow = orange = blue = white = np.zeros(im.shape[0])
 
-    red = cv.bitwise_and(im, im, mask=masks[0])
+    red = cv.bitwise_and(im, im, mask=cv.bitwise_or(
+        masks[0], cv.inRange(hsv, (0, 112, 142), (5, 244, 255))))
     white = cv.bitwise_and(im, im, mask=masks[1])
     green = cv.bitwise_and(im, im, mask=masks[2])
     yellow = cv.bitwise_and(im, im, mask=masks[3])
@@ -48,6 +51,9 @@ for file in os.listdir(directory):
 
     # for i in range(6):
     #   cv.imshow(colours[i+1], cv.bitwise_and(im, masks[i]))
-    cv.waitKey(0)
+    if cv.waitKey(0) & 0xFF == ord('w'):
+        discre.write(str(file)+"\n")
 
     cv.destroyAllWindows()
+
+discre.close()
