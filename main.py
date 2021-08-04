@@ -51,8 +51,8 @@ for file in os.listdir(directory):
 
     # for i in range(6):
     #   cv.imshow(colours[i+1], cv.bitwise_and(im, masks[i]))
-    if cv.waitKey(0) & 0xFF == ord('w'):
-        discre.write(str(file)+"\n")
+#   if cv.waitKey(0) & 0xFF == ord('w'):
+#        discre.write(str(file)+"\n")
 
     cv.destroyAllWindows()
 
